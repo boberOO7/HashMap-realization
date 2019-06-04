@@ -2,11 +2,11 @@ package com.liakhovskyi.hashmap;
 
 import java.util.Objects;
 
-public class Entry<K, V> {
+public class MyEntry<K, V> {
     private final K key;
     private V value;
 
-    public Entry(K key, V value) {
+    public MyEntry(K key, V value) {
         this.key = key;
         this.value = value;
     }
@@ -27,7 +27,7 @@ public class Entry<K, V> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Entry entry = (Entry) o;
+        MyEntry entry = (MyEntry) o;
         return key == entry.key;
     }
 
