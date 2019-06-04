@@ -1,5 +1,7 @@
 package com.liakhovskyi.hashmap;
 
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
+
 public class MyHashMap {
 
     private final float LOAD_FACTOR = 0.75f;
@@ -18,6 +20,20 @@ public class MyHashMap {
 
     public int size() {
         return size;
+    }
+
+    public Long get(Integer key) {
+        MyEntry<Integer, Long> entry;
+        int location = index(key.hashCode());
+        entry = values[location];
+        if (entry != null && entry.getKey().equals(key)) {
+            return entry.getValue();
+        }
+        return null;
+    }
+
+    private int index(int hash) {
+        return hash % table.length;
     }
 
 }
