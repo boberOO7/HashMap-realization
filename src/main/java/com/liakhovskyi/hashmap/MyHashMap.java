@@ -9,7 +9,6 @@ public class MyHashMap {
     private int size;
     private MyEntry<Integer, Long>[] table;
 
-
     public MyHashMap() {
         table = new MyEntry[DEFAULT_CAPACITY];
     }
@@ -50,14 +49,18 @@ public class MyHashMap {
             newEntry.setKey(key);
             newEntry.setValue(value);
 
-            for(int i = location; i < table.length; i++) {
+            for(int i = location; i < table.length;i++) {
                 entry = table[i];
-                if (entry != null && entry.getKey().equals(key)) {
+                if (entry != null){
                     returnValue = entry.getValue();
+                    if (entry.getKey().equals(key)) {
+                        table[i] = newEntry;
+                    }
                 } else {
                     table[i] = newEntry;
                     size++;
                     increaseCapacity();
+                    break;
                 }
             }
         }
@@ -86,7 +89,7 @@ public class MyHashMap {
     }
 
     private void increaseCapacity() {
-        if (size == table.length * loadFactor) {
+        if (size >= table.length * loadFactor) {
             int newCapacity = table.length * 2;
             transfer(newCapacity);
         }
@@ -95,6 +98,7 @@ public class MyHashMap {
     private void transfer(int capacity) {
         MyEntry<Integer, Long>[] tempTable = Arrays.copyOf(table, table.length);
         table = new MyEntry[capacity];
+        size = 0;
         for (int i = 0; i < tempTable.length; i++) {
             MyEntry<Integer, Long> entry = tempTable[i];
             if (entry != null) {
@@ -102,5 +106,4 @@ public class MyHashMap {
             }
         }
     }
-
 }

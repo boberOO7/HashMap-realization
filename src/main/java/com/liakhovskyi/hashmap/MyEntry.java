@@ -1,7 +1,5 @@
 package com.liakhovskyi.hashmap;
 
-import java.util.Objects;
-
 public class MyEntry<K, V> {
     private K key;
     private V value;
@@ -24,14 +22,26 @@ public class MyEntry<K, V> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MyEntry entry = (MyEntry) o;
-        return key == entry.key;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || !this.getClass().getName().equals(o.getClass().getName())) {
+            return false;
+        }
+        MyEntry e = (MyEntry) o;
+        if (this.key == e.key) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key);
+        int prime = 13;
+        int mul = 11;
+        if (key != null) {
+            return prime * mul + key.hashCode();
+        }
+        return 0;
     }
 }
