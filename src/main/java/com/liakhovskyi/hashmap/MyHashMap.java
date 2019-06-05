@@ -11,6 +11,7 @@ public class MyHashMap {
 
     public MyHashMap() {
         table = new MyEntry[DEFAULT_CAPACITY];
+        this.loadFactor = 0.75f;
     }
 
     public MyHashMap(int capacity) {
@@ -29,17 +30,24 @@ public class MyHashMap {
 
     public Long get(Integer key) {
         MyEntry<Integer, Long> entry;
-        int location = index(key.hashCode());
-        entry = table[location];
-        if (entry != null && entry.getKey().equals(key)) {
-            return entry.getValue();
+        if (key == null) {
+            entry = table[0];
+            if (entry != null) {
+               return entry.getValue();
+            }
+        } else {
+            int location = index(key.hashCode());
+            entry = table[location];
+            if (entry != null && entry.getKey().equals(key)) {
+                return entry.getValue();
+            }
         }
         return null;
     }
 
     public Long put(Integer key, Long value) {
         Long returnValue = null;
-        if(key == null) {
+        if (key == null) {
             returnValue = putForNullKey(value);
         } else {
             int location = index(key.hashCode());
@@ -49,9 +57,9 @@ public class MyHashMap {
             newEntry.setKey(key);
             newEntry.setValue(value);
 
-            for(int i = location; i < table.length;i++) {
+            for (int i = location; i < table.length; i++) {
                 entry = table[i];
-                if (entry != null){
+                if (entry != null) {
                     returnValue = entry.getValue();
                     if (entry.getKey().equals(key)) {
                         table[i] = newEntry;
